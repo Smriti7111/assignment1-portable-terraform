@@ -51,10 +51,24 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow HTTPS (Port 443)
+  # Allow Application Ports (81, 82, 83)
   ingress {
-    from_port   = 443
-    to_port     = 443
+    from_port   = 81
+    to_port     = 81
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 82
+    to_port     = 82
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 83
+    to_port     = 83
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
