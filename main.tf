@@ -82,6 +82,11 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
+resource "aws_key_pair" "webserver_key" {
+  key_name   = "webserver-key"
+  public_key = file("sshkey.pub")
+}
+
 # Create an EC2 Instance
 resource "aws_instance" "webserver" {
   ami                         = data.aws_ami.latest_amazon_linux.id
@@ -89,6 +94,7 @@ resource "aws_instance" "webserver" {
   subnet_id                   = data.aws_subnet.default.id
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   associate_public_ip_address = true
+  key_name                    = aws_key_pair.webserver_key.key_name
 
   user_data = <<-EOF
               #!/bin/bash
